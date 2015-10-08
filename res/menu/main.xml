@@ -7,5 +7,17 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
-
+	<item android:id="@+id/menu_refresh"
+          android:checkable="false"
+          android:orderInCategory="1"
+          android:showAsAction="ifRoom"
+          android:title="Refresh"/>
+    <item android:id="@+id/menu_scan"
+          android:title="Scan"
+          android:orderInCategory="100"
+          android:showAsAction="ifRoom|withText"/>
+    <item android:id="@+id/menu_stop"
+          android:title="Stop"
+          android:orderInCategory="101"
+          android:showAsAction="ifRoom|withText"/>
 </menu>

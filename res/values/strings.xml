@@ -4,5 +4,12 @@
     <string name="app_name">DjDetection</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
+	
+    <string name="unknown_characteristic">Unknown characteristic</string>
+    <string name="unknown_service">Unknown service</string>
+    
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
+    <string name="none">None</string>
+    <string name="connecting">Connecting</string>
 </resources>
