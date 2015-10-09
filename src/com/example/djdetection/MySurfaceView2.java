@@ -1,6 +1,7 @@
 package com.example.djdetection;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,11 +23,11 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 	//固定摇杆背景圆形的X,Y坐标以及半径
 	private int RockerCircleX = 0;
 	private int RockerCircleY = 0;
-	private int RockerCircleR = 50;
+	private int RockerCircleR = 100;
 	//摇杆的X,Y坐标以及摇杆的半径
 	private float SmallRockerCircleX = 0;
 	private float SmallRockerCircleY = 0;
-	private float SmallRockerCircleR = 20;
+	private float SmallRockerCircleR = 50;
 	
 	private float MObjectX = 0;
 	private float MObjectY = 0;
@@ -36,12 +37,17 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 	private float ShowAreaRight = 0;
 	private float ShowAreaBottom = 0;
 	
-	private float DangerAreaX = 100;
-	private float DangerAreaY = 100;
-	private float DangerAreaR = 50;
+	private float DangerAreaX = 0;
+	private float DangerAreaY = 0;
+	private float DangerAreaR = 150;
 	
 	private int ScreenHeight = 0;
 	private int ScreenWidth = 0;
+	
+//	private CallBack updateStatusCallback = null;
+	
+	public static final String MESSAGE_OBJECT_POSITION = "MESSAGE_OBJECT_POSITION";
+	public static final String MESSAGE_OBJECT_DANGER = "MESSAGE_OBJECT_DANGER";
 	
 	private boolean isInitialized = false;
 	public MySurfaceView2(Context context, AttributeSet attrs) {
@@ -126,13 +132,13 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 	}
 
 	public void getMObjectXY(float dx, float dy){
-		MObjectX = MObjectX + dx;
+		MObjectX = MObjectX + 5 * dx;
 		if(MObjectX >= ShowAreaRight || MObjectX <= ShowAreaLeft){
-			MObjectX = MObjectX - dx;
+			MObjectX = MObjectX - dx * 5;
 		}
-		MObjectY = MObjectY + dy;
+		MObjectY = MObjectY + 5 * dy;
 		if(MObjectY >= ShowAreaBottom || MObjectY <= ShowAreaTop){
-			MObjectY = MObjectY - dy;
+			MObjectY = MObjectY - dy * 5;
 		}
 	}
 	
@@ -149,16 +155,21 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 		int dWidth = this.getWidth();
 		ScreenHeight = dHeight;
 		ScreenWidth = dWidth;
-		RockerCircleX = 60;
-		RockerCircleY = dHeight - 60;
+		RockerCircleX = 100;
+		RockerCircleY = dHeight - 100;
 		SmallRockerCircleX = RockerCircleX;
 		SmallRockerCircleY = RockerCircleY;
 		
-		ShowAreaRight = ScreenWidth - 10;
-		ShowAreaBottom = ScreenHeight - 120;
 		
-		MObjectX = ShowAreaRight - 10;
-		MObjectY = ShowAreaBottom - 10;
+		
+		ShowAreaRight = ScreenWidth - 10;
+		ShowAreaBottom = ScreenHeight - 220;
+		
+		DangerAreaX = dWidth / 2;
+		DangerAreaY = ShowAreaBottom / 2;
+		
+		MObjectX = ShowAreaRight - 50;
+		MObjectY = ShowAreaBottom - 50;
 	}
 	
 	public void draw() {
@@ -176,7 +187,7 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 			
 			// 绘制监测对象
 			paint.setColor(0xFF99CC00);
-			canvas.drawCircle(MObjectX, MObjectY, 5, paint);
+			canvas.drawCircle(MObjectX, MObjectY, 20, paint);
 			
 			//设置透明度
 			paint.setColor(0x70000000);
@@ -199,6 +210,7 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 			}
 		}
 	}
+	
 
 	public void run() {
 		// TODO Auto-generated method stub
@@ -214,13 +226,18 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 				float dy = 5 * (SmallRockerCircleY - RockerCircleY) / dlength;
 				getMObjectXY(dx , dy);
 			}
-			if(isDangerous()){
-				// bluetooth message light on
-				
-			}else{
-				// bluetooth message light off
-				
-			}
+//			if(isDangerous()){
+//				// bluetooth message light on
+//				if(updateStatusCallback != null){
+//					updateStatusCallback.sendMsg2Blt(1);
+//				}
+//				
+//			}else{
+//				// bluetooth message light off
+//				if(updateStatusCallback != null){
+//					updateStatusCallback.sendMsg2Blt(0);
+//				}
+//			}
 			draw();
 			try {
 				Thread.sleep(50);
@@ -237,5 +254,10 @@ public class MySurfaceView2 extends SurfaceView implements Callback, Runnable {
 		flag = false;
 		Log.v("Himi", "surfaceDestroyed");
 	}
+
+//	public void setMonitoringCallBack(CallBack callback) {
+//		// TODO Auto-generated method stub
+//		updateStatusCallback = callback;
+//	}
 
 }
