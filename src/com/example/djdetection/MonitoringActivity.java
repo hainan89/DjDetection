@@ -13,7 +13,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-public class MainActivity extends Activity {
+public class MonitoringActivity extends Activity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				final Intent intent = new Intent(MainActivity.this, BleScanActivity.class);
+				final Intent intent = new Intent(MonitoringActivity.this, BleScanActivity.class);
 				startActivity(intent);								
 			}
 		});
